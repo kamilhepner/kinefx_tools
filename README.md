@@ -62,6 +62,14 @@ required by: **create_obj_ctrls.py**
 
 ---
 
+### joint apply offset (joint_apply_offset::1.0) (SOP)
+Applies offset to joints. Useful for example when you do spline IK, after solving IK you would like to keep joints offset in such a way that they will match the original skeleton in the default pose. 
+
+To see it in action open: start.hiplc
+
+![joint_offset](images/joint_offset_01.PNG)
+----
+
 ## Usage
 
 ```python
@@ -69,6 +77,10 @@ required by: **create_obj_ctrls.py**
 from kinefx_extra import create_obj_ctrls
 create_obj_ctrls.run()
 ```
+
+### Create object level controls - Video:
+[![Watch the video](https://img.youtube.com/vi/uQ1cNjDZ-fs/default.jpg)](https://www.youtube.com/watch?v=uQ1cNjDZ-fs)
+
 
 ## Tips
 

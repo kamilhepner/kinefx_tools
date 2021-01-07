@@ -144,10 +144,6 @@ def _create_obj_control(name, point_id, zero_wrangle, rig_pose, network=None):
     zero_node.parm('ry').setExpression("detail(chs(\"data_input\"),opname(\".\")+\"_rot\",1)")
     zero_node.parm('rz').setExpression("detail(chs(\"data_input\"),opname(\".\")+\"_rot\",2)")
 
-    # for a in 'xyz':
-    #     zero_node.parm( 'p{}'.format(a)).set(zero_node.parm('t{}'.format(a)).eval() * -1)
-    #     zero_node.parm('pr{}'.format(a)).set(zero_node.parm('r{}'.format(a)).eval() * -1)
-
     zero_node.moveToGoodPosition()
 
 
@@ -289,16 +285,3 @@ def run():
                 continue
 
             zero_node.setInput(0, parent)
-
-            
-
-
-
-
-
-
-
-#import sys ; sys.path.append('T:\\devcode\\python\\houdini') ; from kinefx_extra import create_obj_ctrls ; from importlib import reload
-#import kinefx_extra
-#from kinefx_extra import create_obj_ctrls
-#  from importlib import reload

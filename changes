@@ -1,0 +1,28 @@
+// Author: Kamil Hepner
+
+
+// 15.01.2021 
+Code for creating zero_node inside _create_obj_control() function
+has been moved into separated functionL _create_zero_node()
+
+Added config file to specifying HDAs definitions. That will help us to keep 
+everything in sync with every tool release.
+
+Added connection for a scale parameter between object control and rig pose
+
+run() function now takes argument controls_network which allows you explicitly specify
+which at which network controls should be created. /Obj network isn't default anymore.
+As default value script searches for first object level network of your rig node.
+
+New function promote_control() which automates promotion of transformation channels from
+controls to your rig HDA.
+
+Changed definition of "Attach Geometry Control custom" to "kinefx::attach_geometry_control::1.1"
+to help keep things more organized
+
+Added functionality to specify which transformation channels should be locked on Attach Geometry 
+Control node. 
+
+New function _add_to_group() will be used to add newly created controls to the controls group. 
+Groups are very handy when you want for example select all nodes in group and them promote all 
+transformation channels to your hda rig definition

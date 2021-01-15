@@ -29,13 +29,15 @@ geo.setGlobalAttribValue("gl_lit", lit)
 world_space = node.evalParm("../world_space")
 
 
-# Per control attibutes
+# Per control attributes
 geo.addAttrib(hou.attribType.Point, "shape_name", "")
 geo.addAttrib(hou.attribType.Point, "control_scale", [1.0,1.0,1.0])
 geo.addAttrib(hou.attribType.Point, "control_offset", [0.0,0.0,0.0])
 geo.addAttrib(hou.attribType.Point, "control_color", [0.5,0.5,0.5])
+geo.addAttrib(hou.attribType.Point, "control_folder", "")
 geo.addAttrib(hou.attribType.Point, "control_xray", 0)
 geo.addAttrib(hou.attribType.Point, "world_space", 0)
+geo.addAttrib(hou.attribType.Point, "channel_lock", [0, 0, 0])
         
 visited = set()
     
@@ -45,7 +47,11 @@ for idx in reversed(range(ctrl_parm.eval())):
     scale     = parms[(idx * multiparm_len) + (idx*6) + 2].tuple().eval()
     offset    = parms[(idx * multiparm_len) + (idx*6) + 5].tuple().eval()
     color     = parms[(idx * multiparm_len) + (idx*6) + 8].tuple().eval()
-    xray      = parms[(idx * multiparm_len) + (idx*6) + 11].eval()
+    folder    = parms[(idx * multiparm_len) + (idx*6) + 11].tuple().eval()
+    xray      = parms[(idx * multiparm_len) + (idx*6) + 12].eval()
+    t_lock    = parms[(idx * multiparm_len) + (idx*6) + 13].eval()
+    r_lock    = parms[(idx * multiparm_len) + (idx*6) + 14].eval()
+    s_lock    = parms[(idx * multiparm_len) + (idx*6) + 15].eval()
     
     # Create control transformation matrix 
     trans          = hou.hmath.buildTranslate(offset)
@@ -82,6 +88,8 @@ for idx in reversed(range(ctrl_parm.eval())):
             pt.setAttribValue("control_scale",  scale)
             pt.setAttribValue("control_offset", offset)
             pt.setAttribValue("control_color",  color)
+            pt.setAttribValue("control_folder", folder)
             pt.setAttribValue("control_xray",   xray)
             pt.setAttribValue("world_space",    world_space)
+            pt.setAttribValue("channel_lock",   [t_lock, r_lock, s_lock])
     

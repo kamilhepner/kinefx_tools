@@ -14,19 +14,23 @@ Be sure that all digital assets are installed and ready to use before using scri
 ## HDAs
 There are a few handy HDAs, some of them are required to be installed in order to use them with scripts. 
 
-### Controls library (kinefx::attachcontrolgeo_custom) (OBJ)
+### Controls library (controls_library::1.0) (OBJ)
 Generates different shapes of controls as geometry which can be used in conjunction with **Attach Control Geometry SOP**
 
 required by: **create_obj_ctrls.py**
 
 ---
 
-### Attach Control Geometry (kinefx::attachcontrolgeo_custom) (SOP)
+### Attach Control Geometry (kinefx::attach_geometry_control::1.1) (SOP)
 Modified attach control geometry sop. Added extra functionality to make the process of creating controls more "encapsulated". You can assign individual colors for controls, manipulate the scale of controls and their offsets directly from this one node.  
 ![attach_geometry_01](images/attach_geometry_01.PNG)
 
 Instead of connecting a "library" of controls as input, you just can now use the node path:
 ![attach_geometry_02](images/attach_geometry_02.PNG)
+
+You can specify which channels will be locked after creating controls by setting **Translate/Rotate/Scale Lock** parameter
+
+**Control Folder** Let's you specify the name of folder into which controls will be promoted on your rig HDA.
 
 This node creates extra attributes that are quired during the creation of *object level* controls. Check step by step tutorial. Setting **Xray** parameter **ON** will make *object level* controls automatically set to Xray.
 
@@ -72,14 +76,31 @@ To see it in action open: start.hiplc
 
 ## Usage
 
+### Create object level control
 ```python
 # You can add this code as button on shelf 
 from kinefx_extra import create_obj_ctrls
 create_obj_ctrls.run()
 ```
 
+### Promote selected controls:
+After the creating controls with above script. Now at object level you will have a group called controls. 
+![controls_group](images/controls_group_01.PNG)
+That will let you easily select all controls for your rig. Then just run script:
+```python
+# You can add this code as button on shelf 
+import kinefx_tools
+kinefx_tools.create_obj_ctrls.promote_selected_controls()
+```
+
 ### Create object level controls - Video:
 [![Watch the video](https://img.youtube.com/vi/uQ1cNjDZ-fs/default.jpg)](https://www.youtube.com/watch?v=uQ1cNjDZ-fs)
+
+### Easy way of locking channels- Video:
+[![Watch the video](https://img.youtube.com/vi/iCS5VFZQDQU/default.jpg)](https://www.youtube.com/watch?v=iCS5VFZQDQU)
+
+### Create object level controls - Video:
+[![Watch the video](https://img.youtube.com/vi/8Ev4VLDgE5I/default.jpg)](https://www.youtube.com/watch?v=8Ev4VLDgE5I)
 
 
 ## Tips

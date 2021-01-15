@@ -86,6 +86,7 @@ create_obj_ctrls.run()
 ### Promote selected controls:
 After the creating controls with above script. Now at object level you will have a group called controls. 
 ![controls_group](images/controls_group_01.PNG)
+
 That will let you easily select all controls for your rig. Then just run script:
 ```python
 # You can add this code as button on shelf 

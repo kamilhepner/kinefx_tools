@@ -26,3 +26,9 @@ Control node.
 New function _add_to_group() will be used to add newly created controls to the controls group. 
 Groups are very handy when you want for example select all nodes in group and them promote all 
 transformation channels to your hda rig definition
+
+
+
+// 17.02.2012
+Added space switch node. 
+Readme reogranized a bit

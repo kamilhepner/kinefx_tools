@@ -24,7 +24,7 @@ required by: **create_obj_ctrls.py**
 
 ---
 
-* ### Attach Control Geometry (kinefx::attach_geometry_control::1.1) (SOP)
+* ### Attach Control Geometry (kinefx::attach_geometry_control::1.2) (SOP)
    Modified attach control geometry sop. Added extra functionality to make the process of creating controls more "encapsulated". You can assign individual colors for controls, manipulate the scale of controls and their offsets directly from this one node.  
    ![attach_geometry_01](images/attach_geometry_01.PNG)
 
@@ -71,7 +71,7 @@ required by: **create_obj_ctrls.py**
 
 ---
 
-* ### create zero attrs 1.2 (create_zero_attr::1.2) (SOP)
+* ### create zero attrs 1.1 (create_zero_attr::1.1) (SOP)
    Breaks down *localtransform* matrix per channel and saves it as detail attribute for every joint. That information later is used by *rig_zero* node to move it.
    From version 1.2 it also breaks down world transformation and outputs for *rig_zero* node
 

@@ -29,6 +29,17 @@ geo.setGlobalAttribValue("gl_lit", lit)
 world_space = node.evalParm("../world_space")
 
 
+# Global settings
+geo.addAttrib(hou.attribType.Global, "mirror_scale", [1.0,1.0,1.0])
+
+scale_enable = node.parm("../scale_enable").eval()
+mirror_scale = [1.0, 1.0, 1.0]
+if(scale_enable):
+    mirror_scale = node.parmTuple("../mirror_scale").eval()
+    # Global settings
+    geo.setGlobalAttribValue("mirror_scale", mirror_scale)
+
+
 # Per control attributes
 geo.addAttrib(hou.attribType.Point, "shape_name", "")
 geo.addAttrib(hou.attribType.Point, "control_scale", [1.0,1.0,1.0])
@@ -92,4 +103,6 @@ for idx in reversed(range(ctrl_parm.eval())):
             pt.setAttribValue("control_xray",   xray)
             pt.setAttribValue("world_space",    world_space)
             pt.setAttribValue("channel_lock",   [t_lock, r_lock, s_lock])
+
+    
     

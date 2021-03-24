@@ -102,13 +102,32 @@ def _create_zero_node(control, zero_wrangle):
     zero_node.parm('data_input').set(zero_wrangle.path())
 
     # If joint have a parent, zero-out offset of zero group
-    zero_node.parm('tx').setExpression("detail(chs(\"data_input\"),opname(\".\")+\"_tr\",0)")
-    zero_node.parm('ty').setExpression("detail(chs(\"data_input\"),opname(\".\")+\"_tr\",1)")
-    zero_node.parm('tz').setExpression("detail(chs(\"data_input\"),opname(\".\")+\"_tr\",2)")
+    zero_node.parm('tx').setExpression("if(ch(\"world_space\"),ch(\"world_tx\"),ch(\"local_tx\"))")
+    zero_node.parm('ty').setExpression("if(ch(\"world_space\"),ch(\"world_ty\"),ch(\"local_ty\"))")
+    zero_node.parm('tz').setExpression("if(ch(\"world_space\"),ch(\"world_tz\"),ch(\"local_tz\"))")
 
-    zero_node.parm('rx').setExpression("detail(chs(\"data_input\"),opname(\".\")+\"_rot\",0)")
-    zero_node.parm('ry').setExpression("detail(chs(\"data_input\"),opname(\".\")+\"_rot\",1)")
-    zero_node.parm('rz').setExpression("detail(chs(\"data_input\"),opname(\".\")+\"_rot\",2)")
+    zero_node.parm('rx').setExpression("if(ch(\"world_space\"),ch(\"world_rx\"),ch(\"local_rx\"))")
+    zero_node.parm('ry').setExpression("if(ch(\"world_space\"),ch(\"world_ry\"),ch(\"local_ry\"))")
+    zero_node.parm('rz').setExpression("if(ch(\"world_space\"),ch(\"world_rz\"),ch(\"local_rz\"))")
+
+    
+    # Read local transformation
+    zero_node.parm('local_tx').setExpression("detail(chs(\"data_input\"),opname(\".\")+\"_tr\",0)")
+    zero_node.parm('local_ty').setExpression("detail(chs(\"data_input\"),opname(\".\")+\"_tr\",1)")
+    zero_node.parm('local_tz').setExpression("detail(chs(\"data_input\"),opname(\".\")+\"_tr\",2)")
+
+    zero_node.parm('local_rx').setExpression("detail(chs(\"data_input\"),opname(\".\")+\"_rot\",0)")
+    zero_node.parm('local_ry').setExpression("detail(chs(\"data_input\"),opname(\".\")+\"_rot\",1)")
+    zero_node.parm('local_rz').setExpression("detail(chs(\"data_input\"),opname(\".\")+\"_rot\",2)")
+
+    # Read world transformation
+    zero_node.parm('world_tx').setExpression("detail(chs(\"data_input\"),opname(\".\")+\"_world_tr\",0)")
+    zero_node.parm('world_ty').setExpression("detail(chs(\"data_input\"),opname(\".\")+\"_world_tr\",1)")
+    zero_node.parm('world_tz').setExpression("detail(chs(\"data_input\"),opname(\".\")+\"_world_tr\",2)")
+
+    zero_node.parm('world_rx').setExpression("detail(chs(\"data_input\"),opname(\".\")+\"_world_rot\",0)")
+    zero_node.parm('world_ry').setExpression("detail(chs(\"data_input\"),opname(\".\")+\"_world_rot\",1)")
+    zero_node.parm('world_rz').setExpression("detail(chs(\"data_input\"),opname(\".\")+\"_world_rot\",2)")
 
     zero_node.moveToGoodPosition()
 
@@ -446,9 +465,12 @@ def run(controls_network=None):
         rig_network = node.parent()
         
         # Create zeros node
-        zero_wrangle = rig_network.createNode('create_zero_attr::1.0', node_name='{}_zeros'.format(node.name()))
+        zero_wrangle = rig_network.createNode(conf.hda_def['create_zero_attr'], node_name='{}_zeros'.format(node.name()))
         zero_wrangle.setInput(0, node)
         zero_wrangle.moveToGoodPosition()
+
+        mirror_scale = zero_wrangle.geometry().attribValue("mirror_scale")
+        zero_wrangle.parmTuple('mirror_scale').set(mirror_scale)
 
         # Rig pose
         rig_pose = rig_network.createNode('kinefx::rigpose', node_name='{}_rpose'.format(node.name()))
@@ -502,6 +524,7 @@ def run(controls_network=None):
         
         print("To parent: {}".format(to_parent))
         
+        first = True
         # Create hierarchy 
         for zero_node, control, parent_name in to_parent:
 
@@ -509,10 +532,26 @@ def run(controls_network=None):
             
             if parent_name == None:
                 continue
+
+            if first:
+                # Flip axises 
+                if mirror_scale != (1.0, 1.0, 1.0) :
+                    print(mirror_scale)
+                    zero_node.parmTuple('s').set([-1.0, -1.0, -1.0])
             
             parent = controls_network.node(parent_name)
             if parent == None:
-                print('\tParent {0} doesn\'t exists'.format(parent_name))
+                # Read worldspace data
+                zero_node.parm("world_space").set(1)
+
+                # Flip axises 
+                if mirror_scale != (1.0, 1.0, 1.0) :
+                    print(mirror_scale)
+                    zero_node.parmTuple('s').set([-1.0, -1.0, -1.0])
+
+                print('\tParent {0} doesn\'t exists - setting zero node to world space'.format(parent_name))
                 continue
 
             zero_node.setInput(0, parent)
+
+            first = False

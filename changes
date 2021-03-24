@@ -29,6 +29,17 @@ transformation channels to your hda rig definition
 
 
 
-// 17.02.2012
+// 17.02.2021
 Added space switch node. 
 Readme reogranized a bit
+
+
+// 23.03.2021
+Attach Control Geometry (new version 1.2) added attribute to specify if the skeleton was mirrored by the scale
+and not rotation. Updated python code inside of that HDA to support that change.
+
+Create zero attr (new version 1.1) added support for controls being mirrored by the scale and not rotation.
+Also, the node will output an additional detail attribute called: 
+<control_name>_zero_world_tr and <control_name>_zero_world_rot <- those values will be used by zero node
+in the case if control doesn't have a parent. 
+

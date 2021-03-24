@@ -1,6 +1,9 @@
 # kinefx tools
 Collection of rigging tools and utils for Houdini kinefx.
 
+## Support
+If you're finding what I'm doing useful in any way, maybe you would like to support me by getting virtual coffee:
+[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/P5P337EBN)
 
 ## Installation
 ### Python scripts
@@ -89,7 +92,7 @@ required by: **create_obj_ctrls.py**
 
    You can specify as many spaces as you want by adding entries with + sing next to the *Config* parameter
 
-   ![joint_offset](images/space_switch_01.PNG)
+   ![space_switch_01.PNG](images/space_switch_01.png)
  
    In the **Joint** type the joint name with *@name=* at front of it. Space switch will happen for this joint. Use the multi-instance parameter *Config* to chose how many space switches you would like to have.
 
@@ -97,14 +100,15 @@ required by: **create_obj_ctrls.py**
    **Parent**: Joint name (with *@name=*) of that particular space/transform/parent.
 
    **Space** Allow you to chose currently active space:
-   ![joint_offset](images/space_switch_02.PNG)
+   ![space_switch_02.PNG](images/space_switch_02.png)
 
    **Components** Let you specify for which transformation components you want to perform space switch. For example, for head FK control you only have a rotation space switch.
 
-   **Tip**: In case if you would like to have a separated *Translation* and *Rotation* space switch. You can stack those two nodes, one after another. 
+   **Tip**: In case if you would like to have a separated *Translation* and *Rotation* space switch. You can stack those two nodes, one after another.
+   
    **Tutorial**: Check out this handy tutorial about how to use it:
    
-[![Watch the video](https://img.youtube.com/vi/8Ev4VLDgE5I/default.jpg)](https://www.youtube.com/watch?v=8Ev4VLDgE5I)
+[![Watch the video](https://img.youtube.com/vi/2TvOR7ohPdo/default.jpg)](https://www.youtube.com/watch?v=2TvOR7ohPdo)
 ----
 
 ## Usage
@@ -136,6 +140,8 @@ kinefx_tools.create_obj_ctrls.promote_selected_controls()
 ### Create object level controls - Video:
 [![Watch the video](https://img.youtube.com/vi/8Ev4VLDgE5I/default.jpg)](https://www.youtube.com/watch?v=8Ev4VLDgE5I)
 
+### How to use Space Switch node - Video:
+[![Watch the video](https://img.youtube.com/vi/2TvOR7ohPdo/default.jpg)](https://www.youtube.com/watch?v=2TvOR7ohPdo)
 
 ## Tips
 

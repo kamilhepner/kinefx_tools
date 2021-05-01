@@ -425,21 +425,30 @@ def get_object_level_network(node):
         network (hou.Node): Object level network
     """
 
-    # Node containing all sops
-    if node.type().category().name() == 'Sop':
-        rig_node = node.parent()
-        parent = rig_node.parent()
-    else:
-        parent = node.parent()
+    # Check if object have a parent
+    parent = node.parent()
+    if parent == None:
+        return None
 
+    # Get the first object level node
     while True:
 
         if parent.type().category().name() == 'Object':
-            return parent
+            # Stop when you find first object node, usually it's a rig node
+            # the next up will be your controls network
+            break
         elif parent == None:
             raise ValueError('Can\'t find object level network for {} node'.format(node.name()))
 
         parent = parent.parent()
+
+    # Try get the next up parent, that will be controls network 
+    new_parent = parent.parent()
+    if new_parent != None :
+        if new_parent.type().category().name() == 'Object' or new_parent.type().category().name() == 'Manager':
+            return new_parent
+    else:
+        return parent
     
     return None
 
@@ -524,22 +533,14 @@ def run(controls_network=None):
         
         print("To parent: {}".format(to_parent))
         
-        first = True
+
         # Create hierarchy 
         for zero_node, control, parent_name in to_parent:
 
             print('Parenting \'{0}\' to \'{1}\''.format(zero_node.name(), parent_name))
             
-            if parent_name == None:
-                continue
-
-            if first:
-                # Flip axises 
-                if mirror_scale != (1.0, 1.0, 1.0) :
-                    print(mirror_scale)
-                    zero_node.parmTuple('s').set([-1.0, -1.0, -1.0])
-            
             parent = controls_network.node(parent_name)
+            
             if parent == None:
                 # Read worldspace data
                 zero_node.parm("world_space").set(1)
@@ -549,9 +550,7 @@ def run(controls_network=None):
                     print(mirror_scale)
                     zero_node.parmTuple('s').set([-1.0, -1.0, -1.0])
 
-                print('\tParent {0} doesn\'t exists - setting zero node to world space'.format(parent_name))
+                print('\tParent {0} for {1} doesn\'t exists - setting zero nodes to world space'.format(parent_name, control.name() ))
                 continue
 
             zero_node.setInput(0, parent)
-
-            first = False

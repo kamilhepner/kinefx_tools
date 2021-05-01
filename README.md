@@ -87,7 +87,7 @@ required by: **create_obj_ctrls.py**
    ![joint_offset](images/joint_offset_01.PNG)
 ----
 
-* ### Space switch (space_switch::1.0) (SOP)
+* ### Space switch (space_switch::1.1) (SOP)
    The space switch node allows you to change spaces for the specified joint. To the **first input** connect joint/control (those are the same things) for which space switch you want to perform. **Second input** get all parent's information, those transforms will represent your different spaces.
 
    You can specify as many spaces as you want by adding entries with + sing next to the *Config* parameter
@@ -95,6 +95,8 @@ required by: **create_obj_ctrls.py**
    ![space_switch_01.PNG](images/space_switch_01.png)
  
    In the **Joint** type the joint name with *@name=* at front of it. Space switch will happen for this joint. Use the multi-instance parameter *Config* to chose how many space switches you would like to have.
+   
+   **Stash Input** Need to be pressed in order to stash transform offsets. Also you need to stash your inputs if incoming skeletons changed (hierarchy or position)
 
    **Space name**: it's a descriptive name of your space switch. That name will show up on the menu where you can choose your spaces
    **Parent**: Joint name (with *@name=*) of that particular space/transform/parent.

@@ -320,7 +320,8 @@ def promote_selected_controls(hda=None):
         return None
     
     if hda == None:
-        hda = get_object_level_network(nodes[0])
+        #hda = get_object_level_network(nodes[0])
+        hda = nodes[0].parent()
     
     for node in nodes:
         promote_control(node, hda)
@@ -337,7 +338,8 @@ def promote_control(control, hda=None):
 
     if hda == None:
         # Assuming that parent of control is the top of hda
-        hda = get_object_level_network(control)
+        #hda = get_object_level_network(control)
+        hda = control.parent()
 
     # Get folder name
     folder_parm = control.parm('control_folder')

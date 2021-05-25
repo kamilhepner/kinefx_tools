@@ -14,6 +14,37 @@ or add it to your *sys.path*
 ### Digital assets
 Be sure that all digital assets are installed and ready to use before using scripts.
 
+### Tutorial
+1. Download From github: https://github.com/kamilhepner/kinefx_tools
+2. Extract zip in a directory/folder of your choosing. It will be called something like Eg. *“C:\Users\YourUsername\Downloads\houdini\KineFX_Kamil_Tools\kinefx_tools-main”*
+
+3. Re-name the folder **“kinefx_tools-main”** to **“kinefx_tools”**
+4. In your Houdini user preferences create a folder called **“scripts”** Eg. *“C:\Users\YourUsername\Documents\houdini18.5\scripts”*
+5. Right mouse click to create **“New Text Document.txt”**
+6. Rename it **123.py** and open it
+7. Paste the location of the kinefx_tools:
+```python
+import sys ; sys.path.append('C:\Users\YourUsername\Downloads\houdini\KineFX_Kamil_Tools\kinefx_tools')
+```
+8. In your preferences there is a file called **"houdini.env"**
+9. Paste location of *"kinefx_tools/hda"* eg.
+```
+KINFX=C:\Users\YourUsername\Downloads\houdini\KineFX_Kamil_Tools\kinefx_tools\hda
+```
+10. Add $KINFX to your otls path. Eg.
+```
+HOUDINI_OTLSCAN_PATH = $KINFX;$MOPS/otls;@/otls;@/otls;$QLIB/base;$QLIB/future;$QLIB/experimental
+```
+11. Open Houdini
+12. Create a new shelf called kinefx_tools
+13. Add a button in scripts paste:
+```python
+import sys ; sys.path.append('C:\Users\YourUsername\Downloads\houdini\KineFX_Kamil_Tools') 
+
+import kinefx_tools
+kinefx_tools.create_obj_ctrls.run()
+```
+
 ## HDAs
 There are a few handy HDAs, some of them are required to be installed in order to use them with scripts. 
 

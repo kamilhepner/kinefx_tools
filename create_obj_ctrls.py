@@ -530,8 +530,12 @@ def run(controls_network=None):
             
             to_parent.append((zero_node, control, parent_name))
 
-            # Add to group
+            # Add control to group
             _add_to_group(controls_network, control, 'controls')
+
+        # Add rig pose and zero_attr to group
+        _add_to_group(rig_network, rig_pose, 'zero_and_rpose')
+        _add_to_group(rig_network, zero_wrangle, 'zero_and_rpose')
         
         print("To parent: {}".format(to_parent))
         

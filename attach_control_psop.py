@@ -1,6 +1,6 @@
 # Updated code for Attach Control Geometry SOP
 
-from kinefx import kinefx_utils
+from kinefx import utils
 
 node = hou.pwd()
 geo = node.geometry()
@@ -90,7 +90,7 @@ for idx in reversed(range(ctrl_parm.eval())):
             g_ctrl.transform(control_matrix)
             g_ctrl.freeze(True, True)
 
-            ctrl_prim = kinefx_utils.attachControlGeo(pt, g_ctrl)
+            ctrl_prim = utils.attachControlGeo(pt, g_ctrl)
             if ctrl_grp:
                 ctrl_grp.add(ctrl_prim)
             

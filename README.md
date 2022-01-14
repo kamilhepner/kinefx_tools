@@ -1,6 +1,8 @@
 # kinefx tools
 Collection of rigging tools and utils for Houdini kinefx.
 
+![info](images/info.png) Tools works only with Houdini 19 or newer versions. If you still using Houdini 18.5 use tools from h18.5 branch
+
 ## Support
 If you're finding what I'm doing useful in any way, maybe you would like to support me by getting virtual coffee:
 [![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/P5P337EBN)

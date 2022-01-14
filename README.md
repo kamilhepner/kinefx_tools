@@ -1,7 +1,7 @@
 # kinefx tools
 Collection of rigging tools and utils for Houdini kinefx.
 
-![info](images/info.png) Tools works only with Houdini 19 or newer versions. If you still using Houdini 18.5 use tools from h18.5 branch
+![info | widht=30px](images/info.png) Tools work only with **Houdini 19** or newer versions. If you are still using Houdini 18.5 use tools from the **h18.5** branch
 
 ## Support
 If you're finding what I'm doing useful in any way, maybe you would like to support me by getting virtual coffee:
@@ -50,28 +50,31 @@ kinefx_tools.create_obj_ctrls.run()
 ## HDAs
 There are a few handy HDAs, some of them are required to be installed in order to use them with scripts. 
 
-### Controls library (controls_library::1.0) (OBJ)
+* ### Controls library (controls_library::1.0) (OBJ)
 Generates different shapes of controls as geometry which can be used in conjunction with **Attach Control Geometry SOP**
 
 required by: **create_obj_ctrls.py**
 
 ---
 
-* ### Attach Control Geometry (kinefx::attach_geometry_control::1.2) (SOP)
-   Modified attach control geometry sop. Added extra functionality to make the process of creating controls more "encapsulated". You can assign individual colors for controls, manipulate the scale of controls and their offsets directly from this one node.  
-   ![attach_geometry_01](images/attach_geometry_01.PNG)
-
-   Instead of connecting a "library" of controls as input, you just can now use the node path:
-   ![attach_geometry_02](images/attach_geometry_02.PNG)
+* ### Attach Control Geometry (kinefx::attach_obj_control::1.0) (SOP)
+   Modified attach joint geometry sop. Added extra functionality to make the process of creating object level controls much faster. You can assign individual colors for controls, manipulate the scale of controls and their offsets directly from this one node.  
+   
+   ![attach_geometry_01](images/attach_obj_01.PNG)
 
    In case if your skeleton for these particular controls has been mirrored by the scale you need to set **Mirrored by scale** -> **ON** and specify at which Axis controls have been mirrored. For example, if your controls been mirrored along X-Axis, set the mirror scale to {-1.0, 1.0, 1.0}
+   
    ![attach_geometry_ms_03](images/attach_geometry_ms_03.PNG)
 
    You can specify which channels will be locked after creating controls by setting **Translate/Rotate/Scale Lock** parameter
 
    **Control Folder** Let you specify the name of the folder into which controls will be promoted on your rig HDA. It's a second step to promote controls to your HDA, so filling that parameter is optional. 
 
-   Also, this node creates extra attributes that are quired during the creation of *object level* controls. Check step by step tutorial. Setting **Xray** parameter **ON** will make *object level* controls automatically set to Xray.
+   Also, this node adds extra attributes the jointgeo dictionary:
+   
+   ![attach_obj_jointgeo_02](images/attach_obj_jointgeo_02.PNG)
+   
+   Those extra values are quired during the creation of *object level* controls. Check step by step tutorial. Setting **Xray** parameter **ON** will make *object level* controls automatically set to Xray.
 
    required by: **create_obj_ctrls.py**
 

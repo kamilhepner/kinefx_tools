@@ -22,6 +22,26 @@ def _get_names(node):
     return names
 
 
+def _get_control_prim(point):
+    """
+    Returns control primitive with jointgeo dictonary on it
+    """
+
+    for prim in point.prims():
+
+        d = prim.dictAttribValue('jointgeo')
+
+        if d == None or d == {}:
+            continue
+
+        if 'role' in d and d['role'] == 'control':
+            return prim
+    
+    # No control dictionary found, 
+    return None
+    #raise KeyError('Can\'t find the joingeo dictionary for point id: {}'.format(point.number()))
+
+
 def _is_control_defined(node, point_id):
     """ Checks if control should be created on specified point id
     
@@ -35,7 +55,13 @@ def _is_control_defined(node, point_id):
     """
     
     node_pt    = node.geometry().iterPoints()[point_id]
-    shape_name = node_pt.stringAttribValue('shape_name')
+    prim       = _get_control_prim(node_pt)
+
+    # Control not defined
+    if prim == None:
+        return False
+
+    shape_name = prim.stringAttribValue('name')
 
     return True if shape_name != '' else False
 
@@ -204,14 +230,17 @@ def _create_obj_control(name, point_id, zero_wrangle, rig_pose, network=None):
         control.destroy()
     
     # Query point attributes created by attach control geometry node (custom)
-    shape_name   = zero_wrangle_pt.stringAttribValue('shape_name')
-    scale        = zero_wrangle_pt.attribValue('control_scale')
-    offset       = zero_wrangle_pt.attribValue('control_offset')
-    color        = zero_wrangle_pt.attribValue('control_color')
-    folder       = zero_wrangle_pt.stringAttribValue('control_folder')
-    xray         = zero_wrangle_pt.intAttribValue('control_xray')
-    world_space  = zero_wrangle_pt.intAttribValue('world_space')
-    channel_lock = zero_wrangle_pt.attribValue('channel_lock')
+    ctrl_prim    = _get_control_prim(zero_wrangle_pt)
+    joint_geo    = ctrl_prim.dictAttribValue('jointgeo')
+    shape_name   = ctrl_prim.stringAttribValue('name')
+
+    scale        = joint_geo['offset'].extractScales()
+    offset       = joint_geo['offset'].extractTranslates()
+    color        = joint_geo['Cd'] if 'Cd' in joint_geo else [1.0, 1.0, 1.0]
+    folder       = joint_geo['folder']
+    xray         = joint_geo['xray']
+    world_space  = 0 # TODO: READ proper value
+    channel_lock = f"{joint_geo['t_lock']}{joint_geo['r_lock']}{joint_geo['s_lock']}"
     print("shape_name: {}  world_space: {}".format(shape_name, world_space))
 
     print("rig_control: {}  network: {}".format(conf.hda_def['rig_control'], network))
@@ -232,11 +261,11 @@ def _create_obj_control(name, point_id, zero_wrangle, rig_pose, network=None):
 
     # Lock control channels
     for p, axis in list(zip('trs',channel_lock)):
-        if axis & 1 :
+        if int(axis) & 1 :
             control.parm('{}x'.format(p)).lock(True)
-        if axis & 2 :
+        if int(axis) & 2 :
             control.parm('{}y'.format(p)).lock(True)
-        if axis & 4 :
+        if int(axis) & 4 :
             control.parm('{}z'.format(p)).lock(True)
 
     # Create zero node
@@ -270,18 +299,11 @@ def _have_control_attributes(node):
     geo = node.geometry()
 
     attrs = [
-        'shape_name', 
-        'control_folder',
-        'control_scale', 
-        'control_color', 
-        'control_offset', 
-        'control_xray', 
-        'channel_lock',
-        'world_space',
+        'jointgeo', 
         ]
 
     for attr in attrs:
-        if geo.findPointAttrib(attr) == None:
+        if geo.findPrimAttrib(attr) == None:
             raise IOError('Attribute missing: {}'.format(attr))
             return False
     

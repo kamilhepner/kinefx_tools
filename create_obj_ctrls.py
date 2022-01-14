@@ -239,7 +239,7 @@ def _create_obj_control(name, point_id, zero_wrangle, rig_pose, network=None):
     color        = joint_geo['Cd'] if 'Cd' in joint_geo else [1.0, 1.0, 1.0]
     folder       = joint_geo['folder']
     xray         = joint_geo['xray']
-    world_space  = 0 # TODO: READ proper value
+    world_space  = zero_wrangle.geometry().attribValue('world_space')
     channel_lock = f"{joint_geo['t_lock']}{joint_geo['r_lock']}{joint_geo['s_lock']}"
     print("shape_name: {}  world_space: {}".format(shape_name, world_space))
 

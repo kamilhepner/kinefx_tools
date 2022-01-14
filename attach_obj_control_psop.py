@@ -85,6 +85,10 @@ if(scale_enable):
     # Global settings
     geo.setGlobalAttribValue("mirror_scale", mirror_scale)
 
+ws = node.parm("../world_space").eval()
+geo.addAttrib(hou.attribType.Global, "world_space", 0)
+geo.setGlobalAttribValue("world_space", ws)
+
 
 # reset assigned names per point for the packed geo var
 

@@ -26,12 +26,12 @@ Be sure that all digital assets are installed and ready to use before using scri
 6. Rename it **123.py** and open it
 7. Paste the location of the kinefx_tools:
 ```python
-import sys ; sys.path.append('C:\Users\YourUsername\Downloads\houdini\KineFX_Kamil_Tools\kinefx_tools')
+import sys ; sys.path.append('C:/Users/YourUsername/Downloads/houdini/KineFX_Kamil_Tools/kinefx_tools')
 ```
 8. In your preferences there is a file called **"houdini.env"**
 9. Paste location of *"kinefx_tools/hda"* eg.
 ```
-KINFX=C:\Users\YourUsername\Downloads\houdini\KineFX_Kamil_Tools\kinefx_tools\hda
+KINFX=C:/Users/YourUsername/Downloads/houdini/KineFX_Kamil_Tools/kinefx_tools/hda
 ```
 10. Add $KINFX to your otls path. Eg.
 ```
@@ -41,7 +41,7 @@ HOUDINI_OTLSCAN_PATH = $KINFX;$MOPS/otls;@/otls;@/otls;$QLIB/base;$QLIB/future;$
 12. Create a new shelf called kinefx_tools
 13. Add a button in scripts paste:
 ```python
-import sys ; sys.path.append('C:\Users\YourUsername\Downloads\houdini\KineFX_Kamil_Tools') 
+import sys ; sys.path.append('C:/Users/YourUsername/Downloads/houdini/KineFX_Kamil_Tools') 
 
 import kinefx_tools
 kinefx_tools.create_obj_ctrls.run()

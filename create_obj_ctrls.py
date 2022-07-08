@@ -234,8 +234,8 @@ def _create_obj_control(name, point_id, zero_wrangle, rig_pose, network=None):
     joint_geo    = ctrl_prim.dictAttribValue('jointgeo')
     shape_name   = ctrl_prim.stringAttribValue('name')
 
-    scale        = joint_geo['offset'].extractScales()
-    offset       = joint_geo['offset'].extractTranslates()
+    scale        = joint_geo['offset'].extractScales() if 'offset' in joint_geo else [1.0, 1.0, 1.0]
+    offset       = joint_geo['offset'].extractTranslates() if 'offset' in joint_geo else [0.0, 0.0, 0.0]
     color        = joint_geo['Cd'] if 'Cd' in joint_geo else [1.0, 1.0, 1.0]
     folder       = joint_geo['folder']
     xray         = joint_geo['xray']

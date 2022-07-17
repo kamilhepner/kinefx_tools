@@ -236,6 +236,7 @@ def _create_obj_control(name, point_id, zero_wrangle, rig_pose, network=None):
 
     scale        = joint_geo['offset'].extractScales() if 'offset' in joint_geo else [1.0, 1.0, 1.0]
     offset       = joint_geo['offset'].extractTranslates() if 'offset' in joint_geo else [0.0, 0.0, 0.0]
+    rot          = joint_geo['offset'].extractRotates() if 'offset' in joint_geo else [0.0, 0.0, 0.0]
     color        = joint_geo['Cd'] if 'Cd' in joint_geo else [1.0, 1.0, 1.0]
     folder       = joint_geo['folder']
     xray         = joint_geo['xray']
@@ -253,6 +254,7 @@ def _create_obj_control(name, point_id, zero_wrangle, rig_pose, network=None):
     control.parm('use_dcolor').set(1)
     control.parmTuple('dcolor').set(color)
     control.parmTuple('t2').set(offset)
+    control.parmTuple('r2').set(rot)
 
     if xray:
         control.setGenericFlag(hou.nodeFlag.XRay, True)

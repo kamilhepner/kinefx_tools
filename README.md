@@ -1,51 +1,89 @@
-# kinefx tools
-Collection of rigging tools and utils for Houdini kinefx.
+# KineFX Tools
 
-![info | widht=30px](images/info.png) Tools work only with **Houdini 19** or newer versions. If you are still using Houdini 18.5 use tools from the **h18.5** branch
+A collection of rigging tools and utilities for Houdini's KineFX.
+
+![info | width=30px](images/info.png) These tools are compatible **only** with **Houdini 19.5** and newer versions. If you are using Houdini 18.5, please use the tools from the **h18.5** branch.
 
 ## Support
-If you're finding what I'm doing useful in any way, maybe you would like to support me by getting virtual coffee:
+
+If you find these tools helpful and would like to support my work, consider buying me a virtual coffee:
+
 [![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/P5P337EBN)
 
 ## Installation
-### Python scripts
-Copy: **create_obj_ctrls.py** to source python directory.
-[Houdini DOCs - Python scripts location](https://www.sidefx.com/docs/houdini/hom/locations.html)
-or add it to your *sys.path*
 
-### Digital assets
-Be sure that all digital assets are installed and ready to use before using scripts.
+### Python Scripts
+
+1. Copy all Python scripts to the source Python directory. Refer to the [Houdini Docs for Python script locations](https://www.sidefx.com/docs/houdini/hom/locations.html).
+2. Alternatively, add the path to your `sys.path`.
+
+### Digital Assets
+
+Ensure all digital assets are installed and set up before using the scripts.
 
 ### Tutorial
-1. Download From github: https://github.com/kamilhepner/kinefx_tools
-2. Extract zip in a directory/folder of your choosing. It will be called something like Eg. *“C:\Users\YourUsername\Downloads\houdini\KineFX_Kamil_Tools\kinefx_tools-main”*
 
-3. Re-name the folder **“kinefx_tools-main”** to **“kinefx_tools”**
-4. In your Houdini user preferences create a folder called **“scripts”** Eg. *“C:\Users\YourUsername\Documents\houdini18.5\scripts”*
-5. Right mouse click to create **“New Text Document.txt”**
-6. Rename it **123.py** and open it
-7. Paste the location of the kinefx_tools:
-```python
-import sys ; sys.path.append('C:/Users/YourUsername/Downloads/houdini/KineFX_Kamil_Tools/kinefx_tools')
-```
-8. In your preferences there is a file called **"houdini.env"**
-9. Paste location of *"kinefx_tools/hda"* eg.
-```
-KINFX=C:/Users/YourUsername/Downloads/houdini/KineFX_Kamil_Tools/kinefx_tools/hda
-```
-10. Add $KINFX to your otls path. Eg.
-```
-HOUDINI_OTLSCAN_PATH = $KINFX;$MOPS/otls;@/otls;@/otls;$QLIB/base;$QLIB/future;$QLIB/experimental
-```
-11. Open Houdini
-12. Create a new shelf called kinefx_tools
-13. Add a button in scripts paste:
-```python
-import sys ; sys.path.append('C:/Users/YourUsername/Downloads/houdini/KineFX_Kamil_Tools') 
+Follow these steps for the majority of use cases:
 
-import kinefx_tools
-kinefx_tools.create_obj_ctrls.run()
-```
+1. Download from GitHub: [https://github.com/kamilhepner/kinefx_tools](https://github.com/kamilhepner/kinefx_tools)
+
+2. Extract the zip to a directory of your choice. By default, it might be named something like *“C:\Users\YourUsername\Downloads\houdini\KineFX_Kamil_Tools\kinefx_tools-main”*
+
+3. Rename the folder `kinefx_tools-main` to `kinefx_tools`.
+
+4. Locate the `houdini.env` file in your Houdini preferences, typically found at: `C:\Users\YourUsername\Documents\houdini19.5\houdini.env`.
+
+5. Update the file to include the path to `kinefx_tools/hda`. For example:
+   ```
+   KINFX=C:/Users/YourUsername/Downloads/houdini/KineFX_Kamil_Tools/kinefx_tools/hda
+   ```
+6. Add `$KINFX` to your OTLs path:
+   ```
+   HOUDINI_OTLSCAN_PATH = $KINFX;$MOPS/otls;@/otls;@/otls;$QLIB/base;$QLIB/future;$QLIB/experimental
+   ```
+7. Add `kinefx_tools` to the Python path:
+   ```
+   PYTHONPATH=C:/Users/YourUsername/Downloads/houdini/KineFX_Kamil_Tools;
+   ```
+8. Launch Houdini.
+9. Create a new shelf named `kinefx_tools`.
+10. Add a button and paste the following script. This button will create object-level controls:
+   ```python
+   import kinefx_tools
+   kinefx_tools.create_obj_ctrls.run()
+   ```
+11. Add another button and paste the following script to promote selected controls to the top of your rig HDA:
+   ```python
+   import kinefx_tools
+   kinefx_tools.create_obj_ctrls.promote_selected_controls()
+   ```
+
+
+## Changes in H19.5
+
+KineFX has undergone continuous changes. To ensure the smooth operation of `kinefx_tools`, it's crucial to regularly update your rigs. Below is a list of key modifications needed for your setups:
+
+### Using Existing Rigs
+
+If you don't intend to alter your rigs and only want to animate them, they might function without any hitches. However, if you encounter any issues after updating your Houdini version, it's essential to:
+- Upgrade all `kinefx_tools` and associated scripts to the latest versions.
+- Recreate all object-level controls.
+- Promote controls once more.
+
+### Always Use the Latest Version of **Attach Control Geometry SOP**
+
+Ensure you're using version **1.3** of **Attach Control Geometry SOP**. Regularly updating this component is vital when working on your rigs.
+
+### Adjust Settings for **Attribute Delete** in Specific Setups, like Arms
+
+For the **Attach Control Geometry** to operate flawlessly, certain additional attributes need to be removed. This is especially important in setups with both FK and IK controls, such as Arms or Legs. If you've followed my tutorials on CG Circuit or my YouTube channel, make sure to add the additional attributes to all your **Attribute Delete** nodes.
+
+ - **Point Attributes**: channel_lock control_color control_folder control_offset control_scale control_xray world_space shape_name
+ - **Vertex Attributes**:
+ - **Primitive Attributes**: name jointgeo
+ - **Detail Attributes**: mirror_scale gl_lit world_space
+
+![h19_5_attribute_delete](images/h19_5_attribute_delete.png)
 
 ## HDAs
 There are a few handy HDAs, some of them are required to be installed in order to use them with scripts. 
@@ -57,7 +95,7 @@ required by: **create_obj_ctrls.py**
 
 ---
 
-* ### Attach Control Geometry (kinefx::attach_obj_control::1.0) (SOP)
+* ### Attach Control Geometry (kinefx::attach_obj_control::1.3) (SOP)
    Modified attach joint geometry sop. Added extra functionality to make the process of creating object level controls much faster. You can assign individual colors for controls, manipulate the scale of controls and their offsets directly from this one node.  
    
    ![attach_geometry_01](images/attach_obj_01.PNG)
